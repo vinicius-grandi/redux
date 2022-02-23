@@ -1,12 +1,15 @@
-import { createStore, combineReducers } from 'redux';
-import calculatorReducer from './Calculator/Calculator.reducer';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import CalculatorReducer from './Calculator.stock';
 
-
-
-const rootReducer = combineReducers({
-  calculator: calculatorReducer,
+const store = configureStore({
+  reducer: { 
+    stock: CalculatorReducer 
+  },
 });
-const store = createStore(rootReducer);
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 export default store;

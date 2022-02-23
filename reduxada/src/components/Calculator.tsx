@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { sub, sum } from '../store/Calculator/Calculator.actions';
+import { asyncSub, asyncSum, sub, sum } from '../store/Calculator.stock';
 import { RootState } from '../store/store';
 
 const Calculator = () => {
@@ -11,7 +11,7 @@ const Calculator = () => {
     fn: Function
     ) => fn(Number(ev.target.value));
 
-  const result = useSelector((state: RootState) => state.calculator);
+  const result = useSelector((state: RootState) => state.stock.counter);
   const dispatch = useDispatch();
   return (
     <>
@@ -25,17 +25,30 @@ const Calculator = () => {
         placeholder='b'
         value={ b }
         onChange={ (e) => handleChange(e, setB) } />
+      <br />
       <button
         type='button'
-        onClick={ () => dispatch(sum(a, b)) }
+        onClick={ () => dispatch(sum([a, b])) }
       >
         SOMAR
       </button>
+      <button
+        type='button'
+        onClick={ () => dispatch(asyncSum([a, b])) }
+      >
+        SOMAR COM DELAY
+      </button>
       <button 
         type='button'
-        onClick={ () => dispatch(sub(a, b)) }
+        onClick={ () => dispatch(sub([a, b])) }
       >
         SUBTRAIR
+      </button>
+      <button 
+        type='button'
+        onClick={ () => dispatch(asyncSub([a, b])) }
+      >
+        SUBTRAIR COM DELAY
       </button>
 
       <p>Resultado: { result }</p>
