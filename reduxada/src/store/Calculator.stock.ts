@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppDispatch, AppThunk } from './store';
 
 const stock = createSlice({
@@ -7,12 +7,12 @@ const stock = createSlice({
     counter: 0,
   },
   reducers: {
-    sum: (state, action) => {
-      const [a , b]: [number, number] = action.payload;
+    sum: (state, action: PayloadAction<[number, number]>) => {
+      const [a , b] = action.payload;
       state.counter = a + b
     },
-    sub: (state, action) => {
-      const [a , b]: [number, number] = action.payload;
+    sub: (state, action: PayloadAction<[number, number]>) => {
+      const [a , b] = action.payload;
       state.counter = a - b;
     },
   },
@@ -25,14 +25,14 @@ function sleep(ms: number) {
   return new Promise(res => setTimeout(res, ms));
 }
 
-export function asyncSum(payload: number[]): AppThunk {
+export function asyncSum(payload: [number, number]): AppThunk {
   return async function(dispatch: AppDispatch) {
     await sleep(5000);
     dispatch(sum(payload))
   }
 }
 
-export function asyncSub(payload: number[]): AppThunk {
+export function asyncSub(payload: [number, number]): AppThunk {
   return async function(dispatch: AppDispatch) {
     await sleep(5000);
     dispatch(sub(payload))
